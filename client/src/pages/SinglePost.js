@@ -102,7 +102,7 @@ function SinglePost(props) {
                 )}
               </Card.Content>
             </Card>
-            {/* {user && (
+            {user && (
               <Card fluid>
                 <Card.Content>
                   <p>Post a comment</p>
@@ -128,8 +128,8 @@ function SinglePost(props) {
                   </Form>
                 </Card.Content>
               </Card>
-            )} */}
-            {/* {comments.map((comment) => (
+            )}
+            {comments.map((comment) => (
               <Card fluid key={comment.id}>
                 <Card.Content>
                   {user && user.username === comment.username && (
@@ -140,7 +140,7 @@ function SinglePost(props) {
                   <Card.Description>{comment.body}</Card.Description>
                 </Card.Content>
               </Card>
-            ))} */}
+            ))}
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -150,7 +150,7 @@ function SinglePost(props) {
 }
 
 const SUBMIT_COMMENT_MUTATION = gql`
-  mutation($postId: String!, $body: String!) {
+  mutation($postId: ID!, $body: String!) {
     createComment(postId: $postId, body: $body) {
       id
       comments {

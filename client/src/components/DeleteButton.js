@@ -11,24 +11,26 @@ function DeleteButton({ postId, commentId, callback }) {
 
   const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
 
-  const [deletePostOrMutation] = useMutation(mutation, {
+  const [deletePostOrComment] = useMutation(mutation, {
     update(proxy) {
       setConfirmOpen(false);
-    //   if (!commentId) {
+      if (!commentId) {
         const data = proxy.readQuery({
           query: FETCH_POSTS_QUERY,
         });
-          let newData = data.getPosts.filter((p) => p.id !== postId)
-          proxy.writeQuery({
-              query: FETCH_POSTS_QUERY, data: {
-            getPosts: newData
-        } });
-    //   }
+        let newData = data.getPosts.filter((p) => p.id !== postId);
+        proxy.writeQuery({
+          query: FETCH_POSTS_QUERY,
+          data: {
+            getPosts: newData,
+          },
+        });
+      }
       if (callback) callback();
     },
     variables: {
-      postId
-    //   commentId,
+      postId,
+      commentId,
     },
   });
   return (
@@ -46,7 +48,7 @@ function DeleteButton({ postId, commentId, callback }) {
       <Confirm
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
-        onConfirm={deletePostOrMutation}
+        onConfirm={deletePostOrComment}
       />
     </>
   );
